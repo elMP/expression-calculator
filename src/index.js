@@ -10,6 +10,10 @@ function expressionCalculator(expr) {
   let operands = [];
   let operations = [];
   let operation = ''
+
+  if (!testBrackets(expr))
+    throw 'ExpressionError: Brackets must be paired';
+
   for (let i = 0, nextOperand = ''; i < expr.length; i++) {
     //let nextOperand = '';
     if (Number.isInteger(+expr[i]))
@@ -44,7 +48,7 @@ function expressionCalculator(expr) {
     i--;
     //console.log(operands, "splice", operations)
   }
-  console.log(operands, "splice", operations);
+  //console.log(operands, "splice", operations);
   while (operands.length > 0) {
     let a = result ? result : operands.shift();
     let operation = operations.shift();
@@ -56,7 +60,7 @@ function expressionCalculator(expr) {
 }
 
 function doOneOperation(first, second, operation) {
-  console.log(first, second, operation);
+  //console.log(first, second, operation);
   switch (operation) {
     case '+':
       result = first + second;
@@ -76,6 +80,21 @@ function doOneOperation(first, second, operation) {
   }
   //console.log(result)
   return result;
+}
+
+function testBrackets(expr) {
+  let brackets = [];
+  for (let i = 0; i < expr.length; i++) {
+    if (expr[i] === '(')
+      brackets.push(expr[i]);
+    if (expr[i] === ')')
+      if (brackets.length)
+        brackets.pop();
+      else
+        return false;
+  }
+
+  return brackets.length === 0;
 }
 
 module.exports = {
