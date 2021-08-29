@@ -33,6 +33,18 @@ function expressionCalculator(expr) {
 
   //console.log(operands, operations);
   let result = '';
+  for (let i = 0; i < operations.length; i++) {
+    //console.log(operands, "splice")
+    if (operations[i] === '+' || operations[i] === '-')
+      continue;
+
+    // operands[i] = doOneOperation(operands[i], operands[i + 1], operations[i]);
+    operands.splice(i, 2, doOneOperation(+operands[i], +operands[i + 1], operations[i]));
+    operations.splice(i, 1);
+    i--;
+    //console.log(operands, "splice", operations)
+  }
+  console.log(operands, "splice", operations);
   while (operands.length > 0) {
     let a = result ? result : operands.shift();
     let operation = operations.shift();
@@ -44,7 +56,7 @@ function expressionCalculator(expr) {
 }
 
 function doOneOperation(first, second, operation) {
-  //console.log(first, second, operation);
+  console.log(first, second, operation);
   switch (operation) {
     case '+':
       result = first + second;
@@ -70,5 +82,7 @@ module.exports = {
   expressionCalculator
 }
 
-console.log(expressionCalculator('2+1'));
+console.log(expressionCalculator('2    + 1'));
+//console.log(expressionCalculator('2/0'));
 console.log(expressionCalculator('49 * 63 / 58 * 36'));
+console.log(expressionCalculator('84 + 62 / 33 * 10 + 15'));
