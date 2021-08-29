@@ -5,23 +5,18 @@ function eval() {
 
 function expressionCalculator(expr) {
   // write your solution here
-  let first = '';
-  let second = '';
+  return calculate(expr);
+}
+
+function calculate(expr) {
   let operands = [];
   let operations = [];
-  let operation = ''
 
   if (!testBrackets(expr))
     throw 'ExpressionError: Brackets must be paired';
 
   for (let i = 0, nextOperand = ''; i < expr.length; i++) {
-    //let nextOperand = '';
     if (Number.isInteger(+expr[i]))
-      /*     if (operation)
-             second += expr[i];
-           else
-             first += expr[i];
-             */
       nextOperand += expr[i];
     else {
       operands.push(nextOperand);
@@ -32,23 +27,16 @@ function expressionCalculator(expr) {
       operands.push(nextOperand);
   }
 
-  //first = +first;
-  //second = +second;
-
-  //console.log(operands, operations);
   let result = '';
   for (let i = 0; i < operations.length; i++) {
-    //console.log(operands, "splice")
     if (operations[i] === '+' || operations[i] === '-')
       continue;
 
-    // operands[i] = doOneOperation(operands[i], operands[i + 1], operations[i]);
     operands.splice(i, 2, doOneOperation(+operands[i], +operands[i + 1], operations[i]));
     operations.splice(i, 1);
     i--;
-    //console.log(operands, "splice", operations)
   }
-  //console.log(operands, "splice", operations);
+
   while (operands.length > 0) {
     let a = result ? result : operands.shift();
     let operation = operations.shift();
@@ -60,7 +48,6 @@ function expressionCalculator(expr) {
 }
 
 function doOneOperation(first, second, operation) {
-  //console.log(first, second, operation);
   switch (operation) {
     case '+':
       result = first + second;
@@ -78,7 +65,6 @@ function doOneOperation(first, second, operation) {
         result = first / second;
       break;
   }
-  //console.log(result)
   return result;
 }
 
